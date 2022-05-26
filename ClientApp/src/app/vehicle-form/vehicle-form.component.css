@@ -1,0 +1,5 @@
+.radio-inline {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
