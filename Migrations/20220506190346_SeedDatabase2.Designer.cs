@@ -61,13 +61,13 @@ namespace Cars.Migrations
             modelBuilder.Entity("Cars.Models.Model", b =>
                 {
                     b.HasOne("Cars.Models.Make", null)
-                        .WithMany("ModelResources")
+                        .WithMany("KeyValuePairResources")
                         .HasForeignKey("MakeId");
                 });
 
             modelBuilder.Entity("Cars.Models.Make", b =>
                 {
-                    b.Navigation("ModelResources");
+                    b.Navigation("KeyValuePairResources");
                 });
 #pragma warning restore 612, 618
         }

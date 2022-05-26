@@ -12,35 +12,42 @@ namespace Cars.Controllers
     [Route("/api/vehicles")]
     public class VehiclesController : Controller
     {
-        private readonly CarsDbContext context;
         private readonly IMapper mapper;
+        private readonly IVehicleRepository repository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public VehiclesController(IMapper mapper, CarsDbContext context)
+        public VehiclesController(IMapper mapper, IVehicleRepository repository,IUnitOfWork unitOfWork)
         {
-            this.context = context;
             this.mapper = mapper;
+            this.repository = repository;
+            this.unitOfWork = unitOfWork;
+            
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource SaveVehicleResource)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var model = await context.Models.FindAsync(vehicleResource.ModelId);
+            var model = await repository.GetVehicle(SaveVehicleResource.ModelId);
             if (model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid modelId.");
                 return BadRequest(ModelState);
             }
-            var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+            var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(SaveVehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
-            context.Vehicles.Add(vehicle);
-            await context.SaveChangesAsync();
+            repository.Add(vehicle);
+            await unitOfWork.CompleteAsync();
+
+
+
+            vehicle = await repository.GetVehicle(vehicle.Id);
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
@@ -48,22 +55,25 @@ namespace Cars.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource SaveVehicleResource)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var vehicle = await repository.GetVehicle(id);
 
+            if(vehicle == null)
+            {
+                return NotFound();
+            }            
 
-            var vehicle = await context.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
-            
-
-            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+            mapper.Map<SaveVehicleResource, Vehicle>(SaveVehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
+            vehicle = await repository.GetVehicle(vehicle.Id);
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(result);
@@ -72,15 +82,15 @@ namespace Cars.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var vehicle = await context.Vehicles.FindAsync(id);
+            var vehicle = await repository.GetVehicle(id, includeRelated: false);
 
             if(vehicle == null)
             {
                 return NotFound();
             }
 
-            context.Remove(vehicle);
-            await context.SaveChangesAsync();
+            repository.Remove(vehicle);
+            await unitOfWork.CompleteAsync();
 
             return Ok(id);
         }
@@ -91,7 +101,7 @@ namespace Cars.Controllers
         {
 
 
-            var vehicle = await context.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
             {
@@ -99,9 +109,9 @@ namespace Cars.Controllers
             }
 
 
-            var vehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
+            var SaveVehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
-            return Ok(vehicleResource);
+            return Ok(SaveVehicleResource);
 
         }
 

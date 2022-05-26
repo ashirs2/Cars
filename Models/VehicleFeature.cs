@@ -12,7 +12,7 @@ namespace Cars.Models
 
         public Vehicle vehicle { get; set; }
 
-        public Feature feature { get; set; }
+        public Feature Feature { get; set; }
 
 
         public VehicleFeature()
