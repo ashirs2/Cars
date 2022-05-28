@@ -16,4 +16,8 @@ export class VehicleService {
   getFeatures() {
     return this.http.get('api/features').pipe(map((res:any) => res));
   }
+
+  create(vehicle) {
+    return this.http.post('/api/vehicles', vehicle).pipe(map((res: any) => res));
+  }
 }

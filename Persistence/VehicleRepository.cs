@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cars.Models;
+using Cars.Core.Models;
+using Cars.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cars.Persistence

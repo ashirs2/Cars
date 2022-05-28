@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Cars.Models;
+using Cars.Core.Models;
 
 namespace Cars.Controllers.Resources
 {

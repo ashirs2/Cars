@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Cars.Controllers.Resources;
-using Cars.Models;
+using Cars.Core.Models;
 using System.Linq;
 using System.Collections.Generic;
 

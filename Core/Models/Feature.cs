@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cars.Models
+namespace Cars.Core.Models
 {
     public class Feature
     {

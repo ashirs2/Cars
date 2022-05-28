@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Cars.Controllers.Resources;
-using Cars.Models;
+using Cars.Core.Models;
 using Cars.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Cars.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cars.Controllers
@@ -28,6 +29,10 @@ namespace Cars.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource SaveVehicleResource)
         {
+
+            throw new Exception();
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -109,9 +114,9 @@ namespace Cars.Controllers
             }
 
 
-            var SaveVehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
+            var VehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
-            return Ok(SaveVehicleResource);
+            return Ok(VehicleResource);
 
         }
 

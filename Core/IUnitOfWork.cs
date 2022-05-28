@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Cars.Persistence
+namespace Cars.Core
 {
     public interface IUnitOfWork
     {
