@@ -19,6 +19,7 @@ import { AppErrorHandler } from './app.error-handler';
 import { NotificationService } from './services/notification.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    DataTablesModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', redirectTo:'vehicles',component: VehicleListComponent, pathMatch: 'full' },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../services/vehicle.service';
-import { Vehicle } from '../models/vehicle';
+import { KeyValuePair, Vehicle } from '../models/vehicle';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -10,7 +10,7 @@ import { Vehicle } from '../models/vehicle';
 export class VehicleListComponent implements OnInit {
 
   vehicles: Vehicle[];
-
+  makes: KeyValuePair[];
 
   constructor(private vehiclesService: VehicleService) {
     this.vehicles = null;
@@ -18,12 +18,29 @@ export class VehicleListComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.vehiclesService.getMakes()
+      .subscribe(makes => this.makes = makes);
+
     this.vehiclesService.getVehicles()
       .subscribe(vehicles => {
         this.vehicles = vehicles
+
+        setTimeout(() => {
+          $('#vehiclesTable').DataTable({
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            processing: true,
+            lengthMenu: [5, 10, 25]
+          });
+        }, 1);
         console.log(this.vehicles)
-      });
-    console.log(this.vehicles);
-  }
+
+      }, error => console.error(error));
+
+
+
+        
+      }
+  
 
 }
