@@ -12,6 +12,9 @@ namespace Cars.Mapping
         public MappingProfile()
         {
             //Domain To API Resources
+            CreateMap<Photo, PhotoResource>();
+
+
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();

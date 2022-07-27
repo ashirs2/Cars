@@ -7,6 +7,7 @@ using Cars.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Cars.Core;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Cars.Controllers
 {
@@ -30,7 +31,6 @@ namespace Cars.Controllers
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource SaveVehicleResource)
         {
 
-            throw new Exception();
 
 
             if (!ModelState.IsValid)
@@ -120,6 +120,14 @@ namespace Cars.Controllers
 
         }
 
+
+        [HttpGet]
+        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        {
+            var vehicles = await repository.GetVehicles();
+
+            return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
+        }
 
     }
 }

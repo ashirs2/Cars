@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cars.Core;
+using Cars.Core.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Cars
 {
@@ -22,8 +24,14 @@ namespace Cars
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
+
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDbContext<CarsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllersWithViews();
@@ -32,6 +40,19 @@ namespace Cars
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+
+             services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-he9gsrk1.us.auth0.com/";
+                options.Audience = "https://api.cars.com";
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +77,7 @@ namespace Cars
             }
 
             app.UseRouting();
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

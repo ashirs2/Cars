@@ -14,6 +14,8 @@ namespace Cars.Persistence
 
         public DbSet<Feature> Features { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
         public CarsDbContext(DbContextOptions<CarsDbContext> options)
             : base(options)
         { }

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class AppErrorHandler {\n  handleError(error) {\n    console.log(\"ERROR\");\n    this.notifyService.showError(\"Something is wrong\", \"Error\");\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

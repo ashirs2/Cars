@@ -5,6 +5,7 @@ using AutoMapper;
 using Cars.Controllers.Resources;
 using Cars.Core.Models;
 using Cars.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace Cars.Controllers
         }
 
         [HttpGet("/api/features")]
+        [Authorize]
         public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             var features = await context.Features.ToListAsync();

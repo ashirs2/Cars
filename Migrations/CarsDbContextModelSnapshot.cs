@@ -19,7 +19,7 @@ namespace Cars.Migrations
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Cars.Models.Feature", b =>
+            modelBuilder.Entity("Cars.Core.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +36,7 @@ namespace Cars.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("Cars.Models.Make", b =>
+            modelBuilder.Entity("Cars.Core.Models.Make", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,14 +53,14 @@ namespace Cars.Migrations
                     b.ToTable("Makes");
                 });
 
-            modelBuilder.Entity("Cars.Models.Model", b =>
+            modelBuilder.Entity("Cars.Core.Models.Model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MakeId")
+                    b.Property<int>("MakeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -75,7 +75,29 @@ namespace Cars.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("Cars.Models.Vehicle", b =>
+            modelBuilder.Entity("Cars.Core.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Cars.Core.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,7 +134,7 @@ namespace Cars.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("Cars.Models.VehicleFeature", b =>
+            modelBuilder.Entity("Cars.Core.Models.VehicleFeature", b =>
                 {
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
@@ -127,16 +149,29 @@ namespace Cars.Migrations
                     b.ToTable("VehicleFeatures");
                 });
 
-            modelBuilder.Entity("Cars.Models.Model", b =>
+            modelBuilder.Entity("Cars.Core.Models.Model", b =>
                 {
-                    b.HasOne("Cars.Models.Make", null)
+                    b.HasOne("Cars.Core.Models.Make", "Make")
                         .WithMany("Models")
-                        .HasForeignKey("MakeId");
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Make");
                 });
 
-            modelBuilder.Entity("Cars.Models.Vehicle", b =>
+            modelBuilder.Entity("Cars.Core.Models.Photo", b =>
                 {
-                    b.HasOne("Cars.Models.Model", "Model")
+                    b.HasOne("Cars.Core.Models.Vehicle", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cars.Core.Models.Vehicle", b =>
+                {
+                    b.HasOne("Cars.Core.Models.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -145,33 +180,35 @@ namespace Cars.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("Cars.Models.VehicleFeature", b =>
+            modelBuilder.Entity("Cars.Core.Models.VehicleFeature", b =>
                 {
-                    b.HasOne("Cars.Models.Feature", "feature")
+                    b.HasOne("Cars.Core.Models.Feature", "Feature")
                         .WithMany()
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cars.Models.Vehicle", "vehicle")
+                    b.HasOne("Cars.Core.Models.Vehicle", "vehicle")
                         .WithMany("Features")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("feature");
+                    b.Navigation("Feature");
 
                     b.Navigation("vehicle");
                 });
 
-            modelBuilder.Entity("Cars.Models.Make", b =>
+            modelBuilder.Entity("Cars.Core.Models.Make", b =>
                 {
                     b.Navigation("Models");
                 });
 
-            modelBuilder.Entity("Cars.Models.Vehicle", b =>
+            modelBuilder.Entity("Cars.Core.Models.Vehicle", b =>
                 {
                     b.Navigation("Features");
+
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,6 +26,7 @@
     </PackageReference>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,15 @@
     <None Remove="Mapping\" />
     <None Remove="Core\" />
     <None Remove="Core\Models\" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\7bd36ed2807d52ce94ea1fc957bcf8f8cfedd17a\index.pack.old" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\a885a4864da309b8316fa1298a5d021813bf959b\index.pack.old" />
+    <None Remove="ClientApp\src\app\models\" />
+    <None Remove="ClientApp\src\app\vehicle-list\" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack 11.pack" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack 12.pack" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack 13.pack" />
+    <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack.pack" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +59,8 @@
     <Folder Include="Mapping\" />
     <Folder Include="Core\" />
     <Folder Include="Core\Models\" />
+    <Folder Include="ClientApp\src\app\models\" />
+    <Folder Include="ClientApp\src\app\vehicle-list\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

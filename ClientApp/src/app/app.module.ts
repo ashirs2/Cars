@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgProgressModule } from 'ngx-progressbar';
 
 
 import { ToastrModule } from 'ngx-toastr';
@@ -20,6 +21,9 @@ import { NotificationService } from './services/notification.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { DataTablesModule } from 'angular-datatables';
+import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
+import { PhotoService } from './services/photo.service';
+import { ProgressService } from './services/progress.service'
 
 @NgModule({
   declarations: [
@@ -29,26 +33,30 @@ import { DataTablesModule } from 'angular-datatables';
     CounterComponent,
     FetchDataComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    VehicleInfoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    NgProgressModule,
     DataTablesModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', redirectTo:'vehicles',component: VehicleListComponent, pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleFormComponent },
-      { path: 'vehicles/:id', component: VehicleFormComponent },
+      { path: 'vehicles/edit/:id', component:VehicleFormComponent},
+      { path: 'vehicles/:id', component: VehicleInfoComponent },
       { path: 'vehicles', component: VehicleListComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent }
     ])
   ],
-  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler },
-                VehicleService],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    VehicleService, PhotoService, ProgressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
