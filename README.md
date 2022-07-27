@@ -1,7 +1,7 @@
 # **Cars**
 
 
-A Simple vehicle dealer app bulit using Anguglar, ASP.NET Core and Entity Framework core.
+A  app bulit using Anguglar, ASP.NET Core and Entity Framework core.
 
 # How to Run
 
