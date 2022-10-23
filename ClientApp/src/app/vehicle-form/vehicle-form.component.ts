@@ -21,7 +21,7 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   features: any[];
   models: any[];
-  vehicle: SaveVehicle = {
+  vehicle: any = {
     id: 0,
     makeId: 0,
     modelId: 0,
@@ -42,7 +42,7 @@ export class VehicleFormComponent implements OnInit {
     private ngZone: NgZone) {
 
     route.params.subscribe(p => {
-      this.vehicle.id = +p['id']
+      this.vehicle.id = +p['id'] || 0;
     });
   }
 
@@ -56,11 +56,13 @@ export class VehicleFormComponent implements OnInit {
     if (this.vehicle.id) {
       sources.push(this.vehicleService.getVehicle(this.vehicle.id))
     }
-
+    console.log("DATA")
+    console.log(this.vehicle.id);
 
     Observable.forkJoin(sources).subscribe(data => {
       this.makes = data[0];
       this.features = data[1];
+      
 
       if (this.vehicle.id) {
         this.setVehicle(data[2]);
@@ -68,7 +70,9 @@ export class VehicleFormComponent implements OnInit {
       }
 
 
-    }, err => {
+    }
+      
+      , err => {
       if (err.status == 404) {
         this.router.navigate(['']);
       }
@@ -111,6 +115,7 @@ export class VehicleFormComponent implements OnInit {
 
 
   submit() {
+
     var IsRegistered = (this.vehicle.isRegistered == true)
     this.vehicle.isRegistered = IsRegistered;
 
@@ -120,6 +125,15 @@ export class VehicleFormComponent implements OnInit {
           this.ShowSuccess())
     } else {
 
+      console.log("1")
+      this.vehicleService.getVehiclesId().subscribe(
+      x =>
+      {
+        console.log(x)
+        this.vehicle.id = x
+        });
+
+      console.log("2")
       this.vehicleService.create(this.vehicle)
         .subscribe(
           data => {
@@ -127,6 +141,7 @@ export class VehicleFormComponent implements OnInit {
             this.ShowSuccess();
           },
           error => {
+            console.log(this.vehicle);
             this.ShowError();
           });
     }
