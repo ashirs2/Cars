@@ -27,6 +27,7 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,14 @@
     <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack 13.pack" />
     <None Remove="ClientApp\.angular\cache\14.0.1\angular-webpack\dde20426d1d534559db4f6d430cad3e1f19b429f\index.pack.pack" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="ClientApp\dist\index.html" />
+    <None Remove="ClientApp\dist\runtime.js" />
+    <None Remove="ClientApp\dist\styles.css" />
+    <None Remove="ClientApp\dist\3rdpartylicenses.txt" />
+    <None Remove="ClientApp\dist\polyfills.js" />
+    <None Remove="ClientApp\dist\main.js" />
+    <None Remove="ClientApp\dist\scripts.js" />
+    <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,8 +84,8 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>

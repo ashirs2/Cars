@@ -34,7 +34,7 @@ namespace Cars
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDbContext<CarsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

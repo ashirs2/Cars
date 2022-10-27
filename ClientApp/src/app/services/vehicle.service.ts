@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { SaveVehicle } from '../models/vehicle';
 
@@ -19,7 +19,8 @@ export class VehicleService {
   }
 
   create(vehicle) {
-    return this.http.post('/api/vehicles', vehicle).pipe(map((res: any) => res));
+    console.log(vehicle);
+    return this.http.post('/api/vehicles', JSON.stringify(vehicle), {headers: {'Content-Type': 'application/json; charset=utf-8' }} ).pipe(map((res: any) => res));
   }
 
   getVehicle(id) {
@@ -37,5 +38,9 @@ export class VehicleService {
   getVehicles() {
     return this.http.get('/api/vehicles').pipe(map((res: any) => res));
 
+  }
+
+  getVehiclesId() {
+    return this.http.get('/api/vehicleId').pipe(map((res: number) => res));
   }
 }

@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Cars.Controllers.Resources;
 using Cars.Core.Models;
-using Cars.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Cars.Core;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Cars.Controllers
 {
+    [ApiController]
     [Route("/api/vehicles")]
     public class VehiclesController : Controller
     {
@@ -28,29 +27,20 @@ namespace Cars.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource SaveVehicleResource)
+        public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)
         {
-
-
+            Console.WriteLine(vehicleResource);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var model = await repository.GetVehicle(SaveVehicleResource.ModelId);
-            if (model == null)
-            {
-                ModelState.AddModelError("ModelId", "Invalid modelId.");
-                return BadRequest(ModelState);
-            }
-            var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(SaveVehicleResource);
+            var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
             repository.Add(vehicle);
             await unitOfWork.CompleteAsync();
-
-
 
             vehicle = await repository.GetVehicle(vehicle.Id);
 
@@ -62,6 +52,7 @@ namespace Cars.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource SaveVehicleResource)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -128,6 +119,25 @@ namespace Cars.Controllers
 
             return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
         }
+
+
+        [HttpGet]
+        [Route("/api/vehicleId")]
+        public async Task<IActionResult> GetVehicleId()
+        {
+            var vehicles = await repository.GetVehicles();
+
+            int min = -1;
+            
+            foreach(Vehicle v in vehicles)
+            {
+                if(min < v.Id)
+                    min = v.Id;
+            }
+
+            return Ok( (min + 1) );
+        }
+
 
     }
 }

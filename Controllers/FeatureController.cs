@@ -23,7 +23,7 @@ namespace Cars.Controllers
         }
 
         [HttpGet("/api/features")]
-        [Authorize]
+       
         public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             var features = await context.Features.ToListAsync();

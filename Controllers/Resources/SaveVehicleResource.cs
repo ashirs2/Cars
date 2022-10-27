@@ -13,7 +13,6 @@ namespace Cars.Controllers.Resources
         
         [Required]
         public ContactResource Contact { get; set; }
-
         public ICollection<int> Features { get; set; }
 
 
