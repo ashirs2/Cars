@@ -9,6 +9,7 @@ Docker
 mcr.microsoft.com/mssql/server:2019-latest
 
 SQL
+localhost:1433
 
 
 Visual Studio
