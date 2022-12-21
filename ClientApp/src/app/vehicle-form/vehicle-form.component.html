@@ -39,19 +39,19 @@
         <label for="contactName">Name</label>
         <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name="contactName" required #name="ngModel" />
     </div>
-    <div class="alert alert-danger" *ngIf="name.touched && !name.valid">Please specify the Name.</div>
+    <div class="alert alert-danger" *ngIf="name.touched && !name.valid">Please specify a name.</div>
 
     <div class="form-group">
         <label for="contactPhone">Phone</label>
         <input id="contactPhone" type="text" class="form-control" [(ngModel)]="vehicle.contact.phone" name="contactPhone" required #phone="ngModel" />
     </div>
-    <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">Please specify the Phone.</div>
+    <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">Please specify a phone number.</div>
 
     <div class="form-group">
         <label for="contactEmail">Email</label>
         <input id="contactEmail" type="text" class="form-control" [(ngModel)]="vehicle.contact.email" name="contactEmail" required #email="ngModel" />
     </div>
-    <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Please specify the Email.</div>
+    <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Please specify the email.</div>
 
     <button class="btn btn-primary">Save</button>
     <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()" >Delete</button>
