@@ -1,7 +1,3 @@
-It looks like you're providing instructions on how to set up and run a software project for managing cars, using Angular, ASP.NET Core, Docker, and Entity Framework Core. Below are some suggestions for improving the clarity and detail of your instructions.
-
----
-
 # Cars Management Application
 
 This application is a car management system built using Angular for the frontend, ASP.NET Core for the backend, with a SQL Server database. Docker is used for containerization and Entity Framework Core for data access.
