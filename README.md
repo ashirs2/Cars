@@ -1,6 +1,3 @@
-It looks like you're providing instructions on how to set up and run a software project for managing cars, using Angular, ASP.NET Core, Docker, and Entity Framework Core. Below are some suggestions for improving the clarity and detail of your instructions.
-
----
 
 # Cars Management Application
 
